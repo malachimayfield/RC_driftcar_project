@@ -12,7 +12,7 @@ mu_f = 0.35;    % Front tire coefficient of friction
 g = 9.81;       % Acceleration due to gravity [m/s^2]
 
 % Search for points with a constant Vx
-vx_eq = 1.5;
+vx_eq = 0.5;
 
 options = optimset('Display','off');
 figure();
@@ -130,13 +130,13 @@ subplot(2,2,1);
 ylabel('Vy')
 
 subplot(2,2,2);
-ylim([-40,40])
+% ylim([-40,40])
 ylabel('beta')
 
 subplot(2,2,3);
-ylim([-2.5,2.5])
+% ylim([-2.5,2.5])
 ylabel('r')
 
 subplot(2,2,4);
-ylim([-2.5,2.5])
+% ylim([-2.5,2.5])
 ylabel('Fx')

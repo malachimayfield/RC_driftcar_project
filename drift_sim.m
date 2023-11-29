@@ -14,23 +14,31 @@ mu_f = 0.35;    % Front tire coefficient of friction
 g = 9.81;       % Acceleration due to gravity [m/s^2]
 
 % Initial conditions (delta=-15deg equilibrium point)
-vx_init = 1.5;
-vy_init = -0.5699;
-r_init = 1.9604;
+vx_init     = 1.5 - 0.3;
+vy_init     = -0.5699 + 0.1;
+r_init      = 1.9604 + 0.1;
+x_pos_init  = 0;
+y_pos_init  = 0;
+angle_init  = pi/2;
 
-% Control input for delta=-15deg drift
-u = [ -15*pi/180; 1.6071];
-
-t_vec = linspace(0,10,1000);
+duration = 5;
 
 % Integrate
-state_init = [ vx_init; vy_init; r_init ];
-[~, states] = ode45( @(t,y) drift_eom(t,y,u,g, Lf, Lr, m, Iz, Cr, Cf, mu_r, mu_f), t_vec, state_init);           
+state_init = [ vx_init; vy_init; r_init; x_pos_init; y_pos_init; angle_init];
+
+sim_result = sim('closed_loop_sim', duration);
+states = sim_result.states.Data;
+u = sim_result.u.Data;
+
+t_vec = sim_result.tout;
 
 % Extract state
-vx = states(:,1);
-vy = states(:,2);
-r  = states(:,3);
+vx = squeeze(states(1,1,:));
+vy = squeeze(states(2,1,:));
+r  = squeeze(states(3,1,:));
+size(u)
+delta = squeeze(u(:,1));
+throttle = squeeze(u(:,2));
 
 % Sideslip angle
 beta = atan(vy./vx);
@@ -58,23 +66,35 @@ for i = 2:length(r)
 end
 
 figure(1)
-ax1 = subplot(3,1,1);
+ax1 = subplot(5,1,1);
 hold on;
 plot(t_vec, vx, "DisplayName", "Vx")
 plot(t_vec, vy, "DisplayName", "Vy")
 legend()
 ylabel("Velocity (m/s)")
 
-ax2 = subplot(3,1,2);
+ax2 = subplot(5,1,2);
 plot(t_vec, rad2deg(r), "DisplayName", "r")
 ylabel("Yaw rate (deg/s)")
 
-ax3 = subplot(3,1,3);
+ax3 = subplot(5,1,3);
 plot(t_vec, rad2deg(beta), "DisplayName", "Beta")
 ylabel("Sideslip (deg)")
+
+ax4 = subplot(5,1,4);
+plot(sim_result.u.Time, rad2deg(delta), "DisplayName", "delta")
+ylabel("Steering Angle (deg)")
+
+ax5 = subplot(5,1,5);
+plot(sim_result.u.Time, throttle, "DisplayName", "throttle")
+ylabel("Throttle (Fxr) (N)")
+
 xlabel("Time (sec)")
 
-linkaxes([ax1,ax2,ax3],'x')
+
+rad2deg(delta)
+
+linkaxes([ax1,ax2,ax3,ax4,ax5],'x')
 
 figure(2)
 hold on
