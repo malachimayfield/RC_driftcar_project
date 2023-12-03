@@ -1,16 +1,16 @@
 % Generates tire force vs tire sideslip plots at differnt throttle levels
 
 % Parameters of RC car in paper, probably a good place to start
-m = 2.04;       % Mass [kg]
-Lr = .1087;     % Distance from CM to rear axle [m]
-Lf = .1513;     % Distance from CM to front axle [m]
+m = 1.86;       % Mass [kg]
+Lr = .100;     % Distance from CM to rear axle [m]
+Lf = .160;     % Distance from CM to front axle [m]
 Iz = 0.03;      % Yaw moment of inertia [kg/m^2]
 Cr = 127.77;    % Rear tire cornering stiffness
 Cf = 47.86;     % Front tire cornering stiffness
 mu_r = 0.33;    % Rear tire coefficient of friction
 mu_f = 0.35;    % Front tire coefficient of friction
 g = 9.81;       % Acceleration due to gravity [m/s^2]
-
+        
 % Use rear tire parameters
 Fz = Lr*m*g/(Lf+Lr);
 alpha = deg2rad(linspace(-30,30,1000));

@@ -3,25 +3,25 @@
 close all; clc;
 
 % Parameters of RC car in paper, probably a good place to start
-m = 2.04;       % Mass [kg]
-Lr = .1087;     % Distance from CM to rear axle [m]
-Lf = .1513;     % Distance from CM to front axle [m]
-Iz = 0.03;      % Yaw moment of inertia [kg/m^2]
+m = 1.86;       % Mass [kg]
+Lr = .100;     % Distance from CM to rear axle [m]
+Lf = .160;     % Distance from CM to front axle [m]
+Iz = 0.05;      % Yaw moment of inertia [kg/m^2]
 Cr = 127.77;    % Rear tire cornering stiffness
 Cf = 47.86;     % Front tire cornering stiffness
-mu_r = 0.33;    % Rear tire coefficient of friction
-mu_f = 0.35;    % Front tire coefficient of friction
+mu_r = 0.63;    % Rear tire coefficient of friction
+mu_f = 0.65;    % Front tire coefficient of friction
 g = 9.81;       % Acceleration due to gravity [m/s^2]
 
 % Initial conditions (delta=-15deg equilibrium point)
-vx_init     = 1.5 - 0.3;
-vy_init     = -0.5699 + 0.1;
-r_init      = 1.9604 + 0.1;
+vx_init     = 1.5 + 0.3;
+vy_init     = -0.574 - 0.2;
+r_init      = 1.965 - 0.2;
 x_pos_init  = 0;
 y_pos_init  = 0;
 angle_init  = pi/2;
 
-duration = 5;
+duration = 15;
 
 % Integrate
 state_init = [ vx_init; vy_init; r_init; x_pos_init; y_pos_init; angle_init];

@@ -4,13 +4,14 @@ function u = drift_LQR_controller(state)
 %     vx = state(1);
 %     vy = state(2);
 %     r  = state(3);
-    max_steering_angle = 30*pi/180;
+    max_steering_angle = 20*pi/180;
 
-    u_eq = [ -15*pi/180; 1.6071];
+    u_eq = [-15*pi/180; 1.51];
 
-    state_eq = [1.5; -0.57; 1.96];
+    state_eq = [1.5; -0.566; 1.971];
 
-    K_LQR = [-0.9277,   -1.7791,    1.0831;    1.3237,   -0.5485,    0.0787];
+    K_LQR = [-0.3046   -1.4142    1.0229;
+    1.2731   -0.6590    0.1152];
 
     u = u_eq-K_LQR * (state-state_eq);
     

@@ -1,9 +1,9 @@
 
 
 % Parameters of RC car in paper, probably a good place to start
-m = 2.04;       % Mass [kg]
-Lr = .1087;     % Distance from CM to rear axle [m]
-Lf = .1513;     % Distance from CM to front axle [m]
+m = 1.86;       % Mass [kg]
+Lr = .100;     % Distance from CM to rear axle [m]
+Lf = .160;     % Distance from CM to front axle [m]
 Iz = 0.03;      % Yaw moment of inertia [kg/m^2]
 Cr = 127.77;    % Rear tire cornering stiffness
 Cf = 47.86;     % Front tire cornering stiffness
@@ -16,7 +16,7 @@ vx_eq = 1.5;
 
 options = optimset('Display','off');
 
-delta_eq = -15*pi/180;
+delta_eq = -10*pi/180;
 eq_pt = fsolve(@(y) drift_eom(0, [vx_eq; y(1); y(2)], [delta_eq, y(3)], g, Lf, Lr, m, Iz, Cr, Cf, mu_r, mu_f), [-.8, 2, 3], options);
 vy_eq = eq_pt(1);
 r_eq = eq_pt(2);
@@ -38,6 +38,6 @@ B(:,1) = (drift_eom(0,[vx_eq; vy_eq; r_eq], [delta_eq+h; throttle], g, Lf, Lr, m
 
 B(:,2) = (drift_eom(0,[vx_eq; vy_eq; r_eq], [delta_eq; throttle+h], g, Lf, Lr, m, Iz, Cr, Cf, mu_r, mu_f)-drift_eom(0,[vx_eq; vy_eq; r_eq], [delta_eq; throttle-h], g, Lf, Lr, m, Iz, Cr, Cf, mu_r, mu_f))/(2*h);
 
-Q = diag([1,1,1]);
-R=diag([1, 1]);
+Q = diag([.1,.1,1]);
+R=diag([1, 0.5]);
 lqr(A,B,Q,R,0)
